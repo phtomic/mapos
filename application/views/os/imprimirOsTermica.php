@@ -21,25 +21,8 @@ $totalProdutos = 0; ?>
     </style>
 </head>
 
-<body style="background-color: rgba(0,0,0,.4);" id=body class = "body">
-<font face="Franklin Gothic">
-
-    <!-- Selecionar a 2 via -->
-    <div class = "modal fade in"  id="popup">
-        <div class = "modal-header"><h4 class="modal-title">Deseja imprimir 2 vias ?</h4></div>
-        <div class = "modal-body">
-            <div class="formal-group">
-            <select value="" onchange="showEmpresa(this)">  
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option> 
-            </select>
-            </div>
-        </div>
-        <div class = "modal-footer">
-        <button id="continue" class="button btn btn-mini btn-info" style="float: right;" onclick="closePopup()"><span class="button__text">Continuar</span></button> 
-        </div>    
-    </div> 
-<div id ="principal" hidden >
+<body id=body class="body">
+<div id ="principal">
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span12">
@@ -55,12 +38,12 @@ $totalProdutos = 0; ?>
                                     <tr>
                                         <td colspan="5" class="alert">Você precisa configurar os dados do emitente. >>><a href="<?php echo base_url(); ?>index.php/mapos/emitente">Configurar</a>
                                             <<<</td> </tr> <?php } else { ?> 
-                                    <td style="width: 25% ;text-align: center" ><img src=" <?php echo $emitente[0]->url_logo; ?> " style="max-height: 100px"></td>
+                                    <td style="width: 25% ;text-align: center" ><img src=" <?php echo $emitente->url_logo; ?> " style="max-height: 100px"></td>
                                     <tr>
                                         
                                         <td colspan="5" style="text-align: center">
-                                            <span style="font-size: 12px; ">CNPJ: <?php echo $emitente[0]->cnpj; ?> </br>
-                                                <?php echo $emitente[0]->rua . ', ' . $emitente[0]->numero . ' ' . $emitente[0]->bairro . ' -  ' . $emitente[0]->cidade . ' - ' . $emitente[0]->uf; ?> </span> </br> <span>Fone: <?php echo $emitente[0]->telefone; ?></span></td>
+                                            <span style="font-size: 12px; ">CNPJ: <?php echo $emitente->cnpj; ?> </br>
+                                                <?php echo $emitente->rua . ', ' . $emitente->numero . ' ' . $emitente->bairro . ' -  ' . $emitente->cidade . ' - ' . $emitente->uf; ?> </span> </br> <span>Fone: <?php echo $emitente->telefone; ?></span></td>
                                     </tr>
                                     <tr>
                                         <td style="width: 100%; font-size: 15px;"><b>N° OS:</b> <span><?php echo $result->idOs ?></span><span style="padding-left: 5%;"><b>Emissão:</b> <?php echo date('d/m/Y') ?></span></td>
@@ -255,7 +238,9 @@ $totalProdutos = 0; ?>
                         </table>
                       
                         <!-- Via Da Empresa  -->
-                    <div id="ViaEmpresa" >
+                        <?php $totalServico = 0;
+$totalProdutos = 0; ?>
+                    <div id="ViaEmpresa" <?php echo (!$configuration['control_2vias']) ? "style='display: none;'" : "style='display: block;'" ?>>
                         <div class="invoice-head" style="margin-bottom: 0">
 
                                 <table class="table table-condensed">
@@ -267,12 +252,12 @@ $totalProdutos = 0; ?>
                                 <tr>
                                     <td colspan="5" class="alert">Você precisa configurar os dados do emitente. >>><a href="<?php echo base_url(); ?>index.php/mapos/emitente">Configurar</a>
                                         <<<</td> </tr> <?php } else { ?> 
-                                <td style="width: 25% ;text-align: center" ><img src=" <?php echo $emitente[0]->url_logo; ?> " style="max-height: 100px"></td>
+                                <td style="width: 25% ;text-align: center" ><img src=" <?php echo $emitente->url_logo; ?> " style="max-height: 100px"></td>
                                 <tr>
                                     
                                     <td colspan="5" style="text-align: center">
-                                        <span style="font-size: 12px; ">CNPJ: <?php echo $emitente[0]->cnpj; ?> </br>
-                                            <?php echo $emitente[0]->rua . ', ' . $emitente[0]->numero . ' ' . $emitente[0]->bairro . ' -  ' . $emitente[0]->cidade . ' - ' . $emitente[0]->uf; ?> </span> </br> <span>Fone: <?php echo $emitente[0]->telefone; ?></span></td>
+                                        <span style="font-size: 12px; ">CNPJ: <?php echo $emitente->cnpj; ?> </br>
+                                            <?php echo $emitente->rua . ', ' . $emitente->numero . ' ' . $emitente->bairro . ' -  ' . $emitente->cidade . ' - ' . $emitente->uf; ?> </span> </br> <span>Fone: <?php echo $emitente->telefone; ?></span></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 100%; font-size: 15px;"><b>N° OS:</b> <span><?php echo $result->idOs ?></span><span style="padding-left: 5%;"><b>Emissão:</b> <?php echo date('d/m/Y') ?></span></td>
@@ -389,15 +374,15 @@ $totalProdutos = 0; ?>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            foreach ($produtos as $p) {
-                                                $totalProdutos = $totalProdutos + $p->subTotal;
-                                                echo '<tr>';
-                                                echo '<td>' . $p->quantidade . '</td>';
-                                                echo '<td>' . $p->descricao . '</td>';
-                                                echo '<td>R$ ' . $p->preco ?: $p->precoVenda . '</td>';
-                                                echo '<td>R$ ' . number_format($p->subTotal, 2, ',', '.') . '</td>';
-                                                echo '</tr>';
-                                            } ?>
+                    foreach ($produtos as $p) {
+                        $totalProdutos = $totalProdutos + $p->subTotal;
+                        echo '<tr>';
+                        echo '<td>' . $p->quantidade . '</td>';
+                        echo '<td>' . $p->descricao . '</td>';
+                        echo '<td>R$ ' . $p->preco ?: $p->precoVenda . '</td>';
+                        echo '<td>R$ ' . number_format($p->subTotal, 2, ',', '.') . '</td>';
+                        echo '</tr>';
+                    } ?>
 
                                             <tr>
                                                 <td colspan="3" style="text-align: right"><strong>Total:</strong></td>
@@ -419,7 +404,7 @@ $totalProdutos = 0; ?>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            setlocale(LC_MONETARY, 'en_US');
+                    setlocale(LC_MONETARY, 'en_US');
                                     foreach ($servicos as $s) {
                                         $preco = $s->preco ?: $s->precoVenda;
                                         $subtotal = $preco * ($s->quantidade ?: 1);
@@ -472,29 +457,9 @@ $totalProdutos = 0; ?>
         </div>
     </div>
 </div>
-</font>
 </body>
-
 
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/matrix.js"></script>
-
-    <script type="text/javascript">
-        function showEmpresa(select){
-            if(select.value=="sim"){
-                document.getElementById('ViaEmpresa').style.display = "block";
-            } else{
-                document.getElementById('ViaEmpresa').style.display = "none";
-            }
-            };
-        function closePopup(){
-                document.getElementById('popup').style.display= "none";
-                document.getElementById('principal').style.display= "block";
-                document.getElementById('body').style.background='white' ;
-            window.print();  
-            }
-    </script>
-
-
 
 </html>
