@@ -46,11 +46,7 @@ foreach ($settings["writeable_directories"] as $value) {
 
 $dashboard_url = $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 $dashboard_url = preg_replace('/install.*/', '', $dashboard_url); //remove everything after index.php
-if (!empty($_SERVER['HTTPS'])) {
-    $dashboard_url = 'https://' . $dashboard_url;
-} else {
-    $dashboard_url = 'http://' . $dashboard_url;
-}
+$dashboard_url = 'https://' . $dashboard_url;
 
 /*
  * check the db config file

@@ -359,6 +359,7 @@ foreach ($servicos as $s) {
                                         <div class="span10">
                                             <input type="hidden" name="idOsServico" id="idOsServico" value="<?php echo $result->idOs; ?>" />
                                             <label for="">Anexo</label>
+                                            <label for="">Arquivos permitidos: png, jpg, jpeg, bmp, svg</label>
                                             <input type="file" class="span12" name="userfile[]" multiple="multiple" size="20" />
                                         </div>
                                         <div class="span2">

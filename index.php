@@ -63,11 +63,9 @@ if (ENVIRONMENT === 'pre_installation') {
     $domain = $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
     $domain = preg_replace('/index.php.*/', '', $domain); //remove everything after index.php
-    if (!empty($_SERVER['HTTPS'])) {
-        $domain = 'https://' . $domain;
-    } else {
-        $domain = 'http://' . $domain;
-    }
+    
+    $domain = 'https://' . $domain;
+   
 
     header("Location: $domain./install/index.php");
     exit;

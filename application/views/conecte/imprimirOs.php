@@ -67,7 +67,9 @@ $totalProdutos = 0; ?>
                                                         <?php echo $result->bairro ?></span><br />
                                                     <span>
                                                         <?php echo $result->cidade ?> -
-                                                        <?php echo $result->estado ?></span>
+                                                        <?php echo $result->estado ?></span><br />
+                                                    <span>Telefone:
+                                                    <?php echo $result->telefone ?></span>
                                             </li>
                                         </ul>
                                     </td>
@@ -80,7 +82,7 @@ $totalProdutos = 0; ?>
                                                 <span>
                                                     <?php echo $result->nome ?></span> <br />
                                                 <span>Telefone:
-                                                    <?php echo $result->telefone ?></span><br />
+                                                    <?php echo $result->telefone_usuario ?></span><br />
                                                 <span>Email:
                                                     <?php echo $result->email_usuario ?></span>
                                             </li>

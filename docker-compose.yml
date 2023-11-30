@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  server:
+    build: ./
+    container_name: mapos_init
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - "./application:/www/html/application"
+      - "./confg:/www/cfg"
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:${MYSQL_MAPOS_VERSION}
+    container_name: mysql
+    restart: always
+    env_file:
+      - ".env"
+    environment:
+      - MYSQL_DATABASE=${MYSQL_MAPOS_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_MAPOS_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_MAPOS_USER}
+      - MYSQL_PASSWORD=${MYSQL_MAPOS_PASSWORD}
+    ports:
+      - "${MYSQL_MAPOS_PORT}:3306"
+    volumes:
+      - "./data/db/mysql:/var/lib/mysql"
